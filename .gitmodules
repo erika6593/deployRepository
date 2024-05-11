@@ -1,0 +1,3 @@
+[submodule "psychology_project/psychology_project/deployRepository"]
+	path = psychology_project/psychology_project/deployRepository
+	url = https://github.com/erika6593/deployRepository.git

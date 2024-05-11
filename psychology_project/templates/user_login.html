@@ -1,14 +1,31 @@
 {% extends 'base.html' %}
-{% block content %}
-<form method="POST">
-   {% csrf_token %}
-   {{ form.as_p }}
-   <input type="hidden" name="next" value="{{ request.GET.next }}">
-   <input type="submit" value="ログイン">
-{% comment %} </form>
-<a href="{% provider_login_url 'google' %}">Googleログイン</a>
-<form method="POST" action="{% provider_login_url 'google' %}">
-   {% csrf_token %}
-   <input type="submit" class="btn btn-primary" value="Googleログイン"> {% endcomment %}
-</form>
+{% load static %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'css/custom.css' %}">
 {% endblock %}
+
+{% block title %}ログイン{% endblock %}
+
+{% block content %}
+<div class="form-container">
+   <form method="POST" action="{% url 'accounts:user_login' %}">
+      {% csrf_token %}
+      {% for field in form %}
+            <div class="form-group">
+               <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+               {{ field }}
+               {% if field.errors %}
+                  {% for error in field.errors %}
+                        <div class="error">{{ error }}</div>
+                  {% endfor %}
+               {% endif %}
+            </div>
+      {% endfor %}
+      <input type="hidden" name="next" value="{{ request.GET.next }}">
+      <input type="submit" value="ログイン" class="input-submit">
+   </form>
+</div>
+{% endblock %}
+
+
