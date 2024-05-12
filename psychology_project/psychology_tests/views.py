@@ -106,19 +106,18 @@ class QuizListView(LoginRequiredMixin, ListView):
 def send_share_email(request):
     try:
         recipient_email = request.POST['email']
-        page_url = request.POST['page_url']
+        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
+        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
         subject = '心理テストの結果が共有されました！'
         message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
         sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
 
         send_mail(subject, message, sender_email, [recipient_email])
 
-        # URLをreverse関数を使って生成
-        quiz_list_url = reverse('psychology_tests:quiz_list')
-
+        quiz_list_url = reverse('quiz_list')  # 一覧ページへのURL名も適切に設定してください
         return HttpResponse(f"""
             メールが送信されました！<br><br>
-            <a href="{quiz_list_url}">心理テスト一覧に戻る</a>
+            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
         """)
     except Exception as e:
         return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
