@@ -1,75 +1,75 @@
-/* 全体のフォームスタイリング */
+/* フォームコンテナのスタイリング */
 .form-container {
     text-align: center;
+    width: 80%;
+    max-width: 500px;
+    margin: 50px auto;
     padding: 20px;
-    margin-top: 50px;
     background: #fff;
     box-shadow: 0 4px 8px rgba(0,0,0,0.1);
     border-radius: 8px;
-    width: 400px; /* フォームの幅を指定 */
-    margin: auto;
 }
 
-/* フレックスボックス設定 */
+/* フォームグループ: ラベルとフィールドを縦に並べる */
 .form-group {
+    margin-bottom: 20px;
     display: flex;
-    align-items: center;  /* 中央揃え */
-    margin-bottom: 10px;  /* マージンでフィールド間隔を調整 */
+    flex-direction: column;
+    align-items: flex-start;
 }
 
-/* ラベルとフィールドの間隔、ラベルのテキスト色もグレーに */
+/* ラベルのスタイリング */
 .form-group label {
-    margin-right: 10px;  /* ラベルと入力フィールドの間に適切なスペースを設定 */
-    white-space: nowrap; /* ラベルが折り返さないように設定 */
-    color: gray; /* ラベルの色をグレーに設定 */
+    margin-bottom: 5px;
+    color: gray;
 }
 
-/* メールアドレス、パスワード、その他テキスト入力フィールドのスタイル */
-input[type="email"], input[type="password"], input[type="text"] {
-    color: gray; /* 入力テキストの色をグレーに設定 */
-    flex-grow: 1;  /* 利用可能なスペースを埋める */
+/* テキストボックス、パスワードボックス、その他入力フィールドのスタイリング */
+input[type="email"], input[type="password"], input[type="text"],
+.form-group select, .form-group textarea {
+    width: 100%;
     padding: 8px;
     border-radius: 4px;
     border: 1px solid #ccc;
-    width: 100%; /* 幅を100%に設定 */
+    color: gray;
 }
 
-/* プレースホルダーテキストの色 */
+/* プレースホルダーのスタイリング */
 input[type="email"]::placeholder, input[type="password"]::placeholder, input[type="text"]::placeholder {
-    color: lightgray; /* プレースホルダーの色をより薄いグレーに設定 */
+    color: lightgray;
 }
 
-/* サブミットボタンのスタイル */
+/* サブミットボタンのスタイリング */
 .input-submit {
-    background-color: #e16ba0; /* ボタンの背景色を白に */
-    color: white; /* ボタンのテキスト色 */
-    border: 1px solid #ccc; /* 枠線を追加 */
-    border-radius: 10px; /* 角を丸くする */
-    width: 40%; /* 幅を100%に設定 */
+    background-color: #e16ba0;
+    color: white;
+    border-radius: 10px;
+    width: 50%;
     padding: 10px;
-    margin-top: 20px; /* 上マージン */
-    cursor: pointer; /* カーソルをポインターに設定 */
+    margin-top: 20px;
+    cursor: pointer;
 }
 
 .input-submit:hover {
-    background-color: #e39aa1; /* ホバー時の背景色 */
+    background-color: #e39aa1;
 }
 
-/* エラーメッセージのスタイル */
-.error, .errorlist.nonfield li {
-    color: red; /* エラーメッセージを赤色で表示 */
+/* エラーメッセージのスタイリング */
+.error {
+    color: red;
+    margin-bottom: 5px;
+    font-size: 1em;
 }
 
-/* ナビゲーションブランドのカスタムスタイル */
+/* ナビゲーションスタイル (例示) */
 .navbar-brand-custom {
-    color: #f03b3b !important; /* 強制的なテキスト色設定（薄い赤色） */
+    color: #f03b3b !important;
 }
 
-/* ナビゲーションアイテムのリストスタイル */
 .navbar-nav {
     list-style: none;
     padding: 0;
     margin: 0 auto;
     display: flex;
-    justify-content: center; /* 中央揃え */
+    justify-content: center;
 }

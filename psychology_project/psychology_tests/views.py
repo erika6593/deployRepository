@@ -12,6 +12,8 @@ import logging
 from django.utils import timezone
 from django.db.models import Count
 from django.db.models.functions import ExtractHour
+from django.urls import reverse
+from django.http import HttpResponse, HttpResponseRedirect
 import logging
 
 
@@ -99,26 +101,45 @@ class QuizListView(LoginRequiredMixin, ListView):
     #     quiz = self.get_object()
     #     TestResult.objects.create(user=request.user, quiz=quiz)
     #     return super().get(request, *args, **kwargs)
-
-
-@require_http_methods(["POST"]) 
+    
+@require_http_methods(["POST"])
 def send_share_email(request):
-    if request.method == 'POST':
-        recipient_email = request.POST.get('email')
-        page_url = request.POST.get('page_url')
+    try:
+        recipient_email = request.POST['email']
+        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
+        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
         subject = '心理テストの結果が共有されました！'
         message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
         sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
 
         send_mail(subject, message, sender_email, [recipient_email])
 
-        # リンクを含むメッセージを返す
-        return HttpResponse("""
+        quiz_list_url = reverse('quiz_list')  # 一覧ページへのURL名も適切に設定してください
+        return HttpResponse(f"""
             メールが送信されました！<br><br>
-            <a href="http://127.0.0.1:8000/psychology_tests/quizzes/quiz_list/">心理テスト一覧に戻る</a>
+            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
         """)
-    else:
-        return HttpResponse("不正なリクエストです。")
+    except Exception as e:
+        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
+
+# @require_http_methods(["POST"]) 
+# def send_share_email(request):
+#     if request.method == 'POST':
+#         recipient_email = request.POST.get('email')
+#         page_url = request.POST.get('page_url')
+#         subject = '心理テストの結果が共有されました！'
+#         message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
+#         sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
+
+#         send_mail(subject, message, sender_email, [recipient_email])
+
+#         # リンクを含むメッセージを返す
+#         return HttpResponse("""
+#             メールが送信されました！<br><br>
+#             <a href="http://127.0.0.1:8000/psychology_tests/quizzes/quiz_list/">心理テスト一覧に戻る</a>
+#         """)
+#     else:
+#         return HttpResponse("不正なリクエストです。")
 
 @login_required
 def my_page(request):

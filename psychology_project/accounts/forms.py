@@ -1,5 +1,7 @@
 from django import forms
 from .models import Users
+from django.contrib.auth import authenticate
+from django.utils.translation import gettext_lazy as _
 from django.contrib.auth.password_validation import validate_password
 from django.core.exceptions import ValidationError
 from django.contrib.auth.forms import AuthenticationForm
@@ -37,6 +39,7 @@ class RegistForm(forms.ModelForm):
 # class UserLoginForm(forms.Form):
 #     email = forms.EmailField(label='メールアドレス')
 #     password = forms.CharField(label='パスワード', widget=forms.PasswordInput())
+
 class UserLoginForm(AuthenticationForm):
     username = forms.EmailField(
         label='メールアドレス:',
@@ -51,3 +54,19 @@ class UserLoginForm(AuthenticationForm):
         required=False,
         widget=forms.CheckboxInput(attrs={'autocomplete': 'off'})
     )
+    
+    def clean(self):
+        username = self.cleaned_data.get('username')
+        password = self.cleaned_data.get('password')
+
+        if username and password:
+            self.user_cache = authenticate(self.request, username=username, password=password)
+            if self.user_cache is None:
+                raise forms.ValidationError(
+                    _("登録されていないユーザー,またはパスワードが違います。パスワードは8文字以上です。"),
+                    code='invalid_login'
+                )
+            else:
+                self.confirm_login_allowed(self.user_cache)
+
+        return self.cleaned_data
