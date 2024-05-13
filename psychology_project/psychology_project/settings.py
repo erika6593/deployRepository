@@ -22,9 +22,9 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure--b)k5wxa(5l-x#vvfmxcmlzs9i23&#nwrzx*+affy)zl_+f#)4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sentia.pythonanywhere.com']
 
 
 # Application definition
@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    
+
 ]
 
 AUTH_USER_MODEL = 'accounts.Users'
@@ -167,7 +167,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'e0429ri@gmail.com' 
-EMAIL_HOST_PASSWORD = 'ocjgolsdiuyeitpu' 
+EMAIL_HOST_USER = 'e0429ri@gmail.com'
+EMAIL_HOST_PASSWORD = 'ocjgolsdiuyeitpu'
 
 
