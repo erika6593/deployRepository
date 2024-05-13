@@ -1,51 +1,102 @@
-def clean(self):
-        username = self.cleaned_data.get('username')
-        if username and not User.objects.filter(username=username).exists():
-            self.add_error('username', '登録されていないユーザーです')
-        return super().clean()
+<form action="{% url 'psychology_tests:send_share_email' %}" method="post" class="share-form">
+    {% csrf_token %}
+    <div class="email-container custom-email-form label">
+        <label for="email">友達のアドレス:</label>
+        <input type="email" id="email" name="email" required style="width: 50%;">
+        <input type="hidden" name="quiz_id" value="{{ quiz.id }}"> <!-- quiz_idを追加 -->
+        <button type="submit" class="button" onclick="return confirm('送信しますか?');">送信</button>
+    </div>
+</form>
 
 
-from django import forms
-from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate
-from django.utils.translation import gettext_lazy as _
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.urls import reverse
+from django.views.decorators.http import require_http_methods
 
-class UserLoginForm(AuthenticationForm):
-    username = forms.EmailField(
-        label='メールアドレス:',
-        widget=forms.EmailInput(attrs={'autocomplete': 'username'})
-    )
-    password = forms.CharField(
-        label='パスワード:',
-        widget=forms.PasswordInput(attrs={'autocomplete': 'current-password'})
-    )
-    remember = forms.BooleanField(
-        label='ログイン状態を保持する',
-        required=False,
-        widget=forms.CheckboxInput(attrs={'autocomplete': 'off'})
-    )
+@require_http_methods(["POST"])
+def send_share_email(request):
+    try:
+        recipient_email = request.POST['email']
+        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得します。
+        # 正しい名前空間を使用してURLを生成します。
+        page_url = request.build_absolute_uri(reverse('psychology_tests:quiz_detail', args=[quiz_id]))
+        subject = '心理テストの結果が共有されました！'
+        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
+        sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
 
-    def clean(self):
-        username = self.cleaned_data.get('username')
-        password = self.cleaned_data.get('password')
+        send_mail(subject, message, sender_email, [recipient_email])
 
-        if username and password:
-            self.user_cache = authenticate(self.request, username=username, password=password)
-            if self.user_cache is None:
-                raise forms.ValidationError(
-                    _("登録されていないユーザーですまたはパスワードが違います。"),
-                    code='invalid_login'
-                )
-            else:
-                self.confirm_login_allowed(self.user_cache)
-
-        return self.cleaned_data
+        # 名前空間付きで一覧ページのURLを生成します。
+        quiz_list_url = reverse('psychology_tests:quiz_list')
+        return HttpResponse(f"""
+            メールが送信されました！<br><br>
+            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
+        """)
+    except Exception as e:
+        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
 
 
-<div class="form-errors">
-    {% if form.non_field_errors %}
-        {% for error in form.non_field_errors %}
-            <div class="error">{{ error }}</div>
-        {% endfor %}
-    {% endif %}
-</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+from django.shortcuts import reverse
+from django.http import HttpResponse
+from django.core.mail import send_mail
+from django.views.decorators.http import require_http_methods
+
+@require_http_methods(["POST"])
+def send_share_email(request):
+    try:
+        recipient_email = request.POST['email']
+        quiz_id = request.POST['quiz_id']
+        # URL名 'quiz_detail' が urls.py において正しく定義されていることを確認してください。
+        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
+        subject = '心理テストの結果が共有されました！'
+        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
+        sender_email = 'your-email@gmail.com'  # 実際の送信者メールアドレスに置き換えてください。
+
+        send_mail(subject, message, sender_email, [recipient_email])
+
+        quiz_list_url = reverse('quiz_list')  # こちらも URL名が正しいか確認してください。
+        return HttpResponse(f"""
+            メールが送信されました！<br><br>
+            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
+        """)
+    except Exception as e:
+        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
+
+
+page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
+
+
+@require_http_methods(["POST"])
+def send_share_email(request):
+    try:
+        recipient_email = request.POST['email']
+        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
+        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
+        subject = '心理テストの結果が共有されました！'
+        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
+        sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
+
+        send_mail(subject, message, sender_email, [recipient_email])
+
+        quiz_list_url = reverse('quiz_list')  # 一覧ページへのURL名も適切に設定してください
+        return HttpResponse(f"""
+            メールが送信されました！<br><br>
+            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
+        """)
+    except Exception as e:
+        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")

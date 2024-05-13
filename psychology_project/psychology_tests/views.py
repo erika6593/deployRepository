@@ -14,6 +14,7 @@ from django.db.models import Count
 from django.db.models.functions import ExtractHour
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
+from django.views.decorators.http import require_http_methods
 import logging
 
 
@@ -107,14 +108,14 @@ def send_share_email(request):
     try:
         recipient_email = request.POST['email']
         quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
-        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
+        page_url = request.build_absolute_uri(reverse('psychology_tests:quiz_detail', args=[quiz_id]))
         subject = '心理テストの結果が共有されました！'
         message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
         sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
 
         send_mail(subject, message, sender_email, [recipient_email])
 
-        quiz_list_url = reverse('quiz_list')  # 一覧ページへのURL名も適切に設定してください
+        quiz_list_url = reverse('psychology_tests:quiz_list')  # 一覧ページへのURL名も適切に設定してください
         return HttpResponse(f"""
             メールが送信されました！<br><br>
             <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
