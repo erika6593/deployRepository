@@ -15,7 +15,7 @@ from django.db.models.functions import ExtractHour
 from django.urls import reverse
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.decorators.http import require_http_methods
-import logging
+from .forms import EmailForm  
 
 
 logger = logging.getLogger('usage')
@@ -105,23 +105,34 @@ class QuizListView(LoginRequiredMixin, ListView):
     
 @require_http_methods(["POST"])
 def send_share_email(request):
-    try:
-        recipient_email = request.POST['email']
-        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
+    form = EmailForm(request.POST)
+    if form.is_valid():
+        recipient_email = form.cleaned_data['email']
+        message_body = form.cleaned_data['message']
+        quiz_id = request.POST.get('quiz_id')  # フォームからではなくリクエストから取得します
         page_url = request.build_absolute_uri(reverse('psychology_tests:quiz_detail', args=[quiz_id]))
         subject = '心理テストの結果が共有されました！'
-        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
-        sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
+        message = f"{message_body}\n\n以下のリンクから心理テストのページを確認できます: {page_url}"
+        sender_email = 'your-email@gmail.com'
 
-        send_mail(subject, message, sender_email, [recipient_email])
-
-        quiz_list_url = reverse('psychology_tests:quiz_list')  # 一覧ページへのURL名も適切に設定してください
+        try:
+            send_mail(subject, message, sender_email, [recipient_email])
+            quiz_list_url = reverse('psychology_tests:quiz_list')
+            return HttpResponse(f"""
+                メールが送信されました！<br><br>
+                <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
+            """)
+        except Exception as e:
+            return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
+    else:
+        # フォームが無効な場合、エラーメッセージを表示する
+        error_messages = "<br>".join([f"{field.label}: {error}" for field in form for error in field.errors])
+        quiz_list_url = reverse('psychology_tests:quiz_list')
         return HttpResponse(f"""
-            メールが送信されました！<br><br>
+            入力されたアドレスに誤りがあります、正しく入力してください！<br>
+            {error_messages}<br><br>
             <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
         """)
-    except Exception as e:
-        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
 
 # @require_http_methods(["POST"]) 
 # def send_share_email(request):
