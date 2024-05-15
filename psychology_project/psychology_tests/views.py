@@ -103,6 +103,10 @@ class QuizListView(LoginRequiredMixin, ListView):
     #     TestResult.objects.create(user=request.user, quiz=quiz)
     #     return super().get(request, *args, **kwargs)
     
+from django.core.mail import send_mail
+from django.http import HttpResponse
+from django.urls import reverse
+
 @require_http_methods(["POST"])
 def send_share_email(request):
     form = EmailForm(request.POST)
@@ -133,6 +137,7 @@ def send_share_email(request):
             {error_messages}<br><br>
             <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
         """)
+
 
 # @require_http_methods(["POST"]) 
 # def send_share_email(request):
@@ -165,8 +170,8 @@ def delete_result(request, result_id):
     result.delete()
     return HttpResponse("""
         削除しました！<br><br>
-        <a href="http://127.0.0.1:8000/accounts/user/">マイページに戻る</a>
-    """)  # 削除後にリダイレクトするページ
+        <a href="{% url 'accounts:user' %}">マイページに戻る</a>
+    """)
 
 @login_required
 @require_POST
@@ -176,5 +181,5 @@ def delete_all_results(request):
     # 削除後のメッセージを表示し、特定のページにリダイレクト
     return HttpResponse("""
         全ての履歴を削除しました！<br><br>
-        <a href="http://127.0.0.1:8000/accounts/user/">マイページに戻る</a>
+        <a href="{% url 'accounts:user' %}">マイページに戻る</a>
     """)
