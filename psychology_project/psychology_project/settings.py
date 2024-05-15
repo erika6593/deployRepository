@@ -1,51 +1,30 @@
-from pathlib import Path
 import os
-import logging
-from django.utils import timezone
-
-logger = logging.getLogger('usage')
-
-# これにより.envファイルが読み込まれます
+from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates', )
+TEMPLATE_DIR = os.path.join(BASE_DIR, 'templates')
 STATIC_DIR = os.path.join(BASE_DIR, 'static')
 
-
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
-
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure--b)k5wxa(5l-x#vvfmxcmlzs9i23&#nwrzx*+affy)zl_+f#)4'
+SECRET_KEY = 'django-insecure-9y!%_xo_9)ux^iw8_lvf*#l#yre!wegq&98h3*5!9zer!ci82d'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
-<<<<<<< HEAD
-ALLOWED_HOSTS = ['sentia.pythonanywhere.com']
-=======
 ALLOWED_HOSTS = ['sentia.pythonanywhere.com', 'localhost', '127.0.0.1']
->>>>>>> 48008661aa10c541be8767cfc4e1ab5193790fc3
-
 
 # Application definition
-
 INSTALLED_APPS = [
-    'accounts',
-    'psychology_tests',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-
+    'accounts',
+    'psychology_tests',
 ]
-
-AUTH_USER_MODEL = 'accounts.Users'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -77,29 +56,7 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'psychology_project.wsgi.application'
 
-LOGGING = {
-    'version': 1,
-    'disable_existing_loggers': False,
-    'handlers': {
-        'file': {
-            'level': 'DEBUG',
-            'class': 'logging.FileHandler',
-            'filename': 'usage.log',
-        },
-    },
-    'loggers': {
-        'usage': {
-            'handlers': ['file'],
-            'level': 'DEBUG',
-            'propagate': False,
-        },
-    },
-}
-
-
 # Database
-# https://docs.djangoproject.com/en/4.1/ref/settings/#databases
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -107,10 +64,7 @@ DATABASES = {
     }
 }
 
-
 # Password validation
-# https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
-
 AUTH_PASSWORD_VALIDATORS = [
     {
         'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
@@ -126,59 +80,34 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
-# https://docs.djangoproject.com/en/4.1/topics/i18n/
-
 LANGUAGE_CODE = 'ja'
-
 TIME_ZONE = 'Asia/Tokyo'
-
 USE_I18N = True
-
 USE_L10N = True
-
 USE_TZ = True
 
-
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     STATIC_DIR
 ]
-# STATIC_URL = '/static/'
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'static'
-# ]
 
-LOGIN_URL = '/accounts/user_login'
-LOGIN_REDIRECT_URL = '/accounts/home'
-LOGOUT_REDIRECT_URL = '/accounts/user_login'
-
+# Media files
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 MEDIA_URL = '/media/'
 
-
-
 # Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# Email configuration (replace with your own settings)
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'e0429ri@gmail.com'
-EMAIL_HOST_PASSWORD = 'ocjgolsdiuyeitpu'
+EMAIL_HOST_USER = 'your_email@gmail.com'
+EMAIL_HOST_PASSWORD = 'your_email_password'
 
-
-BASE_URL = os.getenv('BASE_URL', 'http://127.0.0.1:8000')
-
-# settings/production.py
-BASE_URL = 'https://sentia.pythonanywhere.com'
-
-# settings/development.py
-BASE_URL = 'http://127.0.0.1:8000'
+# Base URL
+BASE_URL = 'http://127.0.0.1:8000'  # Development
+# BASE_URL = 'https://sentia.pythonanywhere.com'  # Production
