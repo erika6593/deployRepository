@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import (
-    BaseUserManager, AbstractBaseUser, PermissionsMixin
-)
+    BaseUserManager, AbstractBaseUser, PermissionsMixin,
+    Group, Permission)
 from django.urls import reverse_lazy
 from django.utils import timezone
 
@@ -37,7 +37,18 @@ class Users(AbstractBaseUser, PermissionsMixin):
     is_staff = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-
+    
+    groups = models.ManyToManyField(
+        Group,
+        related_name='custom_user_groups',
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='custom_user_permissions',
+        blank=True
+    )
+    
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['username']
 
