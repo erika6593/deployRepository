@@ -32,12 +32,13 @@
             <li>あなたは秘密主義なタイプ。他人との距離感を大切にする人なので、誤解されてしまうことも多いですが、そのミステリアスな感じに惹かれる人は多いでしょう。</li>
             <li>あなたはユーモアセンスが溢れるタイプ。あなたの考え、あなたの言葉を大切に、そのままのあなたでいてください。</li>
         </ol><br>
-        <p>結果はいかがでしたか？お友達に共有できます😘</p>
+        <p>結果はいかがでしたか？</p>
+        <p>この内容を共有したい時は送信先を入力してね😘</p>
     </div>
     <form action="{% url 'psychology_tests:send_share_email' %}" method="post" class="share-form">
         {% csrf_token %}
         <div class="email-container custom-email-form label">
-            <label for="email">友達のアドレス:</label>
+            <label for="email">メールアドレス:</label>
             <input type="email" id="email" name="email" required style="width: 50%;">
             <input type="hidden" name="quiz_id" value="{{ quiz.id }}"> <!-- quiz_idを追加 -->
             <button type="submit" class="button" onclick="return confirm('送信しますか?');">送信</button>

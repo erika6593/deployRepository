@@ -32,14 +32,15 @@
             <li>あなたは友達から、とても知的で頼りになると思われているようです。本当に悩みを抱えてしまった時や、難しい問題に直面した時など、あなたにまず意見を聞きたいと思う人が多いのではないでしょうか？</li>
             <li>あなたは友達から、客観的にこの世界のことを良く観察し、熟知も理解もしている賢者だと思われていそうです。</li>
         </ol><br>
-        <p>結果はいかがでしたか？お友達に共有できます😘</p>
+        <p>結果はいかがでしたか？</p>
+        <p>この内容を共有したい時は送信先を入力してね😘</p>
     </div>
     <form action="{% url 'psychology_tests:send_share_email' %}" method="post" class="share-form">
         {% csrf_token %}
         <div class="email-container custom-email-form label">
-            <label for="email">友達のアドレス:</label>
+            <label for="email">メールアドレス:</label>
             <input type="email" id="email" name="email" required style="width: 50%;">
-            <input type="hidden" name="page_url" value="{{ request.build_absolute_uri }}">
+            <input type="hidden" name="quiz_id" value="{{ quiz.id }}"> <!-- quiz_idを追加 -->
             <button type="submit" class="button" onclick="return confirm('送信しますか?');">送信</button>
         </div>
     </form>
