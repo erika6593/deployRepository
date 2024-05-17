@@ -1,102 +1,62 @@
-<form action="{% url 'psychology_tests:send_share_email' %}" method="post" class="share-form">
-    {% csrf_token %}
-    <div class="email-container custom-email-form label">
-        <label for="email">友達のアドレス:</label>
-        <input type="email" id="email" name="email" required style="width: 50%;">
-        <input type="hidden" name="quiz_id" value="{{ quiz.id }}"> <!-- quiz_idを追加 -->
-        <button type="submit" class="button" onclick="return confirm('送信しますか?');">送信</button>
-    </div>
-</form>
+from django.db import models
+from django.contrib.auth.models import (
+    BaseUserManager, AbstractBaseUser, PermissionsMixin,
+    Group, Permission)
+from django.urls import reverse_lazy
+from django.utils import timezone
+
+class UserManager(BaseUserManager):
+    def create_user(self, username, email, password=None):
+        if not email:
+            raise ValueError('Emailアドレスを入力してください')
+        user = self.model(
+            username=username,
+            email=email
+        )
+        user.set_password(password)
+        user.save(using=self._db)
+        return user
+    
+    def create_superuser(self, username, email, password=None):
+        user = self.model(
+            username = username,
+            email = email,
+        )
+        user.set_password(password)
+        user.is_staff = True
+        user.is_active = True
+        user.is_superuser = True
+        user.save(using=self._db)
+        return user
 
 
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.urls import reverse
-from django.views.decorators.http import require_http_methods
+class Users(AbstractBaseUser, PermissionsMixin):
+    username = models.CharField(max_length=150)
+    email = models.EmailField(max_length=255, unique=True)
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    groups = models.ManyToManyField(
+        Group,
+        related_name='custom_user_groups',
+        blank=True
+    )
+    user_permissions = models.ManyToManyField(
+        Permission,
+        related_name='custom_user_permissions',
+        blank=True
+    )
+    
+    USERNAME_FIELD = 'email'
+    REQUIRED_FIELDS = ['username']
 
-@require_http_methods(["POST"])
-def send_share_email(request):
-    try:
-        recipient_email = request.POST['email']
-        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得します。
-        # 正しい名前空間を使用してURLを生成します。
-        page_url = request.build_absolute_uri(reverse('psychology_tests:quiz_detail', args=[quiz_id]))
-        subject = '心理テストの結果が共有されました！'
-        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
-        sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
+    objects = UserManager()
 
-        send_mail(subject, message, sender_email, [recipient_email])
-
-        # 名前空間付きで一覧ページのURLを生成します。
-        quiz_list_url = reverse('psychology_tests:quiz_list')
-        return HttpResponse(f"""
-            メールが送信されました！<br><br>
-            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
-        """)
-    except Exception as e:
-        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-from django.shortcuts import reverse
-from django.http import HttpResponse
-from django.core.mail import send_mail
-from django.views.decorators.http import require_http_methods
-
-@require_http_methods(["POST"])
-def send_share_email(request):
-    try:
-        recipient_email = request.POST['email']
-        quiz_id = request.POST['quiz_id']
-        # URL名 'quiz_detail' が urls.py において正しく定義されていることを確認してください。
-        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
-        subject = '心理テストの結果が共有されました！'
-        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
-        sender_email = 'your-email@gmail.com'  # 実際の送信者メールアドレスに置き換えてください。
-
-        send_mail(subject, message, sender_email, [recipient_email])
-
-        quiz_list_url = reverse('quiz_list')  # こちらも URL名が正しいか確認してください。
-        return HttpResponse(f"""
-            メールが送信されました！<br><br>
-            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
-        """)
-    except Exception as e:
-        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
-
-
-page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
-
-
-@require_http_methods(["POST"])
-def send_share_email(request):
-    try:
-        recipient_email = request.POST['email']
-        quiz_id = request.POST['quiz_id']  # フォームからクイズIDを取得する必要があります。
-        page_url = request.build_absolute_uri(reverse('quiz_detail', args=[quiz_id]))
-        subject = '心理テストの結果が共有されました！'
-        message = f"以下のリンクから心理テストのページを確認できます: {page_url}"
-        sender_email = 'your-email@gmail.com'  # 送信者のメールアドレス
-
-        send_mail(subject, message, sender_email, [recipient_email])
-
-        quiz_list_url = reverse('quiz_list')  # 一覧ページへのURL名も適切に設定してください
-        return HttpResponse(f"""
-            メールが送信されました！<br><br>
-            <a href="{request.build_absolute_uri(quiz_list_url)}">心理テスト一覧に戻る</a>
-        """)
-    except Exception as e:
-        return HttpResponse(f"メール送信中にエラーが発生しました: {str(e)}")
+    def get_absolute_url(self):
+        return reverse_lazy('accounts:home')
+    
+    def save(self, *args, **kwargs):
+        self.updated_at = timezone.now()
+        super().save(*args, **kwargs)
