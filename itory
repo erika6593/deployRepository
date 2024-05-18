@@ -1,0 +1,168 @@
+[33mcommit d64d399f4b00aae00bd2913960533620fad9484f[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m)[m
+Merge: 196e7cc e49869c
+Author: sentia <e0429ri@gmail.com>
+Date:   Wed May 15 16:16:45 2024 +0000
+
+    Complete merge
+
+[33mcommit 196e7cc4f7f74c8657c781cff74d6e03a1f69dde[m
+Merge: d1aafe5 e8042a0
+Author: sentia <e0429ri@gmail.com>
+Date:   Wed May 15 15:58:27 2024 +0000
+
+    Remove __pycache__ from repository
+
+[33mcommit e49869c6108a930a850f88cbdb18c385c5c74b6d[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Thu May 16 00:56:25 2024 +0900
+
+    提出後
+
+[33mcommit e8042a032fdaca02d92d71723b89b165f3702f41[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Thu May 16 00:38:42 2024 +0900
+
+    提出後
+
+[33mcommit d1aafe5690531a8ba18cf84182a7c72671e82a92[m
+Merge: b011d37 bbc1b37
+Author: sentia <e0429ri@gmail.com>
+Date:   Wed May 15 15:05:12 2024 +0000
+
+    Resolve conflicts by removing pycache files
+
+[33mcommit b011d37f0202b79f8f8475c405fec1f08215e09e[m
+Author: sentia <e0429ri@gmail.com>
+Date:   Wed May 15 15:02:51 2024 +0000
+
+    Remove Python bytecode files from tracking
+
+[33mcommit e49f9252592d28f572d7a94c4843be9343ba6cb4[m
+Author: sentia <e0429ri@gmail.com>
+Date:   Wed May 15 15:02:36 2024 +0000
+
+    Update .gitignore to ignore Python bytecode files
+
+[33mcommit bbc1b377ed3e03a179be9fdc41ae98f031e2a8cc[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Wed May 15 23:43:38 2024 +0900
+
+    提出後
+
+[33mcommit 1866f49d0cd525bcd67756acca2c6ab5a6dd0754[m
+Merge: 2413eb4 7e9cda2
+Author: sentia <e0429ri@gmail.com>
+Date:   Tue May 14 13:32:19 2024 +0000
+
+    Merge branch 'master' of https://github.com/erika6593/deployRepository
+
+[33mcommit 2413eb438dd932cbcae6a0402e1743c612826c3a[m
+Merge: 0914f88 80b306c
+Author: sentia <e0429ri@gmail.com>
+Date:   Tue May 14 13:32:08 2024 +0000
+
+    Complete merge operation
+
+[33mcommit 7e9cda2f78bff832997318c4b422847217bc317a[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Tue May 14 22:21:38 2024 +0900
+
+    提出後
+
+[33mcommit 80b306c1b42dd96484680a01c51c79d3ee77c250[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 23:14:12 2024 +0900
+
+    サブモジュールの最新のコミットを更新
+
+[33mcommit 0914f8862b9da0efb46892238b32b1eeab38561a[m
+Merge: 8299773 4800866
+Author: sentia <e0429ri@gmail.com>
+Date:   Mon May 13 13:25:14 2024 +0000
+
+    提出後
+
+[33mcommit 829977371f56d6ab22f300b6ae8ba66430a7faae[m
+Merge: 06eab9f dd63a2b
+Author: sentia <e0429ri@gmail.com>
+Date:   Mon May 13 13:02:57 2024 +0000
+
+    提出後の修正を含むコミット
+
+[33mcommit 48008661aa10c541be8767cfc4e1ab5193790fc3[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 22:00:42 2024 +0900
+
+    提出後の修正を含むコミット
+
+[33mcommit 8e770372ac5d2843a0c2543f1083b05472b9a929[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 21:52:25 2024 +0900
+
+    提出後
+
+[33mcommit 7413ec57f53a27dcfd234c457aabb2ae69a1800b[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 20:42:15 2024 +0900
+
+    Remove binary files from Git tracking and update .gitignore
+
+[33mcommit 71b35f4714504f84f38f26cb15780a1492ed824a[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 20:29:50 2024 +0900
+
+    Update .gitignore to exclude certain files
+
+[33mcommit 880d343827db22120137731d70b230335545c854[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 20:08:21 2024 +0900
+
+    Add .gitignore file
+
+[33mcommit 06eab9f75f312a20673a7a7cc47e061517b5616b[m
+Author: sentia <e0429ri@gmail.com>
+Date:   Mon May 13 09:34:14 2024 +0000
+
+    提出後
+
+[33mcommit dd63a2b3b7f4eb535abb0ca5fe9bbfb45d77488d[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Mon May 13 18:16:35 2024 +0900
+
+    提出後
+
+[33mcommit b487394f989c32a837fb73d940d7113a179fb2fe[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Sun May 12 17:19:55 2024 +0900
+
+    メール送信フォーム
+
+[33mcommit c2df6d8489ce3e29d0e4f8aaca77b3a77a17fdc1[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Sun May 12 09:09:05 2024 +0900
+
+    メール送信フォーム
+
+[33mcommit 9e3ea7c96b6a289695082c6b9c1724cb42b28d6e[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Sun May 12 06:31:52 2024 +0900
+
+    不要なサブリポジトリの参照を削除
+
+[33mcommit 8b427eda367816b0b18907027dc47d4caf6dcf2f[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Sun May 12 04:21:45 2024 +0900
+
+    不要なサブリポジトリの参照を削除
+
+[33mcommit c6a3ec7a9d9c03727f1cfca5dd39a335b8ff520e[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Fri Apr 26 01:43:13 2024 +0900
+
+    変更の説明
+
+[33mcommit c5b07c1ec677174b3d204587bb659764ea6faf4a[m
+Author: erika6593 <e0429ri@icloud.com>
+Date:   Wed Apr 24 01:04:39 2024 +0900
+
+    “初めてのコミット”

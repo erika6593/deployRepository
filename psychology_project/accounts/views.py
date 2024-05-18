@@ -12,6 +12,12 @@ from psychology_tests.models import TestResult
 class HomeView(TemplateView):
     template_name = 'home.html'
 
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('psychology_tests:quiz_list')
+        return super().dispatch(request, *args, **kwargs)
+        #518
+
 class RegistUserView(CreateView):
     template_name = 'regist.html'
     form_class = RegistForm
@@ -54,7 +60,7 @@ class UserLoginView(LoginView):
 #         return super().form_valid(form)
 
 # class UserLogoutView(View):
-    
+
 #     def get(self, request, *args, **kwargs):
 #         logout(request)
 #         return redirect('accounts:user_login')
@@ -64,7 +70,7 @@ class UserLogoutView(LogoutView):
 
 class UserView(LoginRequiredMixin, TemplateView):
     template_name = 'user.html'
-    
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user = self.request.user
@@ -80,17 +86,17 @@ class UserView(LoginRequiredMixin, TemplateView):
     #     # ログインユーザーのテスト結果を取得
     #     context['test_results'] = TestResult.objects.filter(user=self.request.user)
     #     return context
-    
+
     def dispatch(self, *args, **kwargs):
         return super().dispatch(*args, **kwargs)
-    
+
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     # ログインしているユーザーに関連するテスト結果を取得
     #     context['test_results'] = TestResult.objects.filter(user=self.request.user)
     #     return context
 
-    
+
 
 # @method_decorator(login_required, name='dispatch')
 """元のコード"""

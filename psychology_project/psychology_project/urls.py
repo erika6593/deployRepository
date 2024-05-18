@@ -2,9 +2,11 @@ from django.contrib import admin
 from django.urls import path, include
 from . import settings
 from django.contrib.staticfiles.urls import static
+from accounts.views import HomeView
 
 
 urlpatterns = [
+    path('', HomeView.as_view(), name='home'),
     path('admin/', admin.site.urls),
     path('accounts/', include('accounts.urls')),
     path('psychology_tests/quizzes/', include(('psychology_tests.urls', 'psychology_tests'), namespace='psychology_tests')),
