@@ -11,6 +11,12 @@ from psychology_tests.models import TestResult
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+    
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('psychology_tests:quiz_list')
+        return super().dispatch(request, *args, **kwargs)
+    
 
 class RegistUserView(CreateView):
     template_name = 'regist.html'
