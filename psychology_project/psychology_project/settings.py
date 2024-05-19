@@ -22,9 +22,9 @@ STATIC_DIR = os.path.join(BASE_DIR, 'static')
 SECRET_KEY = 'django-insecure--b)k5wxa(5l-x#vvfmxcmlzs9i23&#nwrzx*+affy)zl_+f#)4'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['sentia.pythonanywhere.com', 'localhost', '127.0.0.1']
 
 
 # Application definition
@@ -171,3 +171,10 @@ EMAIL_HOST_USER = 'e0429ri@gmail.com'
 EMAIL_HOST_PASSWORD = 'ocjgolsdiuyeitpu' 
 
 
+BASE_URL = os.getenv('BASE_URL', 'http://127.0.0.1:8000')
+
+# settings/production.py
+BASE_URL = 'https://sentia.pythonanywhere.com'
+
+# settings/development.py
+BASE_URL = 'http://127.0.0.1:8000'
